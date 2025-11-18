@@ -7,16 +7,16 @@ import (
 	"os"
 	"os/signal"
 	"time"
-	"github.com/spf13/viper"
+
+	"aggregator/utils"
 )
 
 func main() {
-	viper.AutomaticEnv()
-
-	port := viper.GetString("SERVER_PORT")
-	if port == "" {
-		port = "3001"
+	config, err := utils.LoadConfig(".")
+	if err != nil {
+		log.Fatal("cannot load config:", err)
 	}
+	port := config.SERVER_PORT
 	mux := http.NewServeMux()
 	mux.HandleFunc("/health", healthHandler)
 	// HTTP server configuration
