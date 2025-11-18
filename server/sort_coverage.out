@@ -1,0 +1,14 @@
+mode: set
+aggregator/sort/sort.go:9.39,10.42 1 1
+aggregator/sort/sort.go:10.42,12.3 1 1
+aggregator/sort/sort.go:15.44,16.42 1 1
+aggregator/sort/sort.go:16.42,20.3 3 1
+aggregator/sort/sort.go:23.47,24.42 1 1
+aggregator/sort/sort.go:24.42,28.18 3 1
+aggregator/sort/sort.go:28.18,30.4 1 0
+aggregator/sort/sort.go:31.3,31.18 1 1
+aggregator/sort/sort.go:31.18,33.4 1 1
+aggregator/sort/sort.go:35.3,35.29 1 1
+aggregator/sort/sort.go:39.54,41.16 2 1
+aggregator/sort/sort.go:41.16,43.3 1 1
+aggregator/sort/sort.go:44.2,44.17 1 1
