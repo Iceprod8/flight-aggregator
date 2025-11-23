@@ -1,14 +1,16 @@
 package main
 
 import (
+	"aggregator/handler"
+	"aggregator/repository"
+	"aggregator/service"
+	"aggregator/utils"
 	"context"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
-
-	"aggregator/utils"
 )
 
 func main() {
@@ -17,15 +19,23 @@ func main() {
 		log.Fatal("cannot load config:", err)
 	}
 	port := config.SERVER_PORT
+
 	mux := http.NewServeMux()
-	mux.HandleFunc("/health", healthHandler)
+	mux.HandleFunc("/health", handler.HealthHandler)
+
+	repo1 := repository.Jserver1Repository() //jserver 1 --> attente de Gina
+	repo2 := repository.Jserver2Repository() //jserver 2 --> attente de Gina
+
+	fs := service.NewFlightService(repo1, repo2)
+	mux.HandleFunc("/flights", handler.FlightHandler(fs))
+
 	// HTTP server configuration
 	server := &http.Server{
-		Addr: ":" + port,
-		Handler: mux,
-		ReadTimeout: 5 * time.Second,
+		Addr:         ":" + port,
+		Handler:      mux,
+		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
-		IdleTimeout: 60 * time.Second,
+		IdleTimeout:  60 * time.Second,
 	}
 
 	go func() {
@@ -46,9 +56,4 @@ func main() {
 		log.Printf("Server shutdown error: %v", err)
 	}
 	log.Println("Server stopped gracefully")
-}
-
-func healthHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write([]byte("OK"))
 }
