@@ -3,7 +3,7 @@ package handler
 import (
 	"aggregator/models"
 	"aggregator/service"
-	"fmt"
+	"encoding/json"
 	"net/http"
 )
 
@@ -14,12 +14,9 @@ func HealthHandler(w http.ResponseWriter, r *http.Request) {
 
 func FlightHandler(fs *service.FlightService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		sortParams := r.URL.Query().Get("sort_by")
-		var mode models.SortMode
+		mode := models.SortMode(r.URL.Query().Get("sort_by"))
 		if !validateSortMode(mode) {
 			mode = models.SortByPrice
-		} else {
-			mode = models.SortMode(sortParams)
 		}
 
 		flights, err := fs.GetFlights(mode)
@@ -28,8 +25,11 @@ func FlightHandler(fs *service.FlightService) http.HandlerFunc {
 			return
 		}
 
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(fmt.Sprintf("Résultats = %v", flights)))
+		if err := json.NewEncoder(w).Encode(flights); err != nil {
+			http.Error(w, "Failed to encode flights", http.StatusInternalServerError)
+		}
 	}
 }
 

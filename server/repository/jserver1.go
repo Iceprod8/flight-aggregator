@@ -17,7 +17,7 @@ type FlightsDTO struct {
     ArrivalAirport string `json:"arrivalAirport"`
     DepartureTime time.Time `json:"departureTime"`
     ArrivalTime time.Time `json:"arrivalTime"`
-    Price int `json:"price"`
+	Price float64 `json:"price"`
     Currency string `json:"currency"`
     Id string `json:"id"`
 }
