@@ -23,6 +23,8 @@ services:
       - JSERVER1_NAME=${JSERVER1_NAME}
       - JSERVER2_PORT=${JSERVER2_PORT}
       - JSERVER2_NAME=${JSERVER2_NAME}
+      - JSERVER1_FILE_PATH: /j-server1/db.json
+      - JSERVER2_FILE_PATH: /j-server2/db.json
     ports:
       - 4000:4000
     volumes:
