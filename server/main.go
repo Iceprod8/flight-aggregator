@@ -23,8 +23,8 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/health", handler.HealthHandler)
 
-	repo1 := repository.Jserver1Repository() //jserver 1 --> attente de Gina
-	repo2 := repository.Jserver2Repository() //jserver 2 --> attente de Gina
+	repo1 := repository.NewJServer1Repository(config.JSERVER1_FILE_PATH) 
+	repo2 := repository.NewJServer2Repository(config.JSERVER2_FILE_PATH)
 
 	fs := service.NewFlightService(repo1, repo2)
 	mux.HandleFunc("/flights", handler.FlightHandler(fs))
