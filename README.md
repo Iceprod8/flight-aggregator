@@ -63,3 +63,9 @@ tests :
   - controller, service, repo
   - interface
   - env variable handling
+
+
+Nathan Samochval
+Gina Palesch
+Clemence Amiard
+Christian Miclea
